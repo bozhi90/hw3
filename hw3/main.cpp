@@ -18,9 +18,10 @@ Thread thread_uLCD;
 Thread thread_wifi;
 
 void bt_push () {
-    //myled3 = !myled3;
+    char s[100];
     select_index = sel;
-    printf("uLCD_selected\n");
+    sprintf(s, "selected");
+    mqtt_queue.call(&publish_message, client_pt, s, 0);
     uLCD_selected();
 }
 
