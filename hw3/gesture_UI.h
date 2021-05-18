@@ -1,3 +1,7 @@
+/*****************************************************************************/
+/*                               手勢判斷函式庫                                */
+/*****************************************************************************/
+
 #include "accelerometer_handler.h"
 #include "config.h"
 #include "magic_wand_model_data.h"
@@ -10,13 +14,13 @@
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
-/*****************************************************************************/
-extern bool runUI;                                              // 控制開始與停止
-extern int sel;                                                 // 紀錄手勢的值
-/*****************************************************************************/
+extern bool runUI;                      // 控制開始與停止
+extern int sel;                         // 紀錄手勢的值
+
 
 constexpr int kTensorArenaSize = 60 * 1024;
 uint8_t tensor_arena[kTensorArenaSize];
+
 
 int PredictGesture(float* output) {
     static int continuous_count = 0;
@@ -49,10 +53,15 @@ int PredictGesture(float* output) {
     return this_predict;
 }
 
+
+
+/*****************************************************************************/
+/*                             手勢判斷主程式，判斷手勢                          */
+/*****************************************************************************/
 int function_GUI (void) {
     bool should_clear_buffer = false;
     bool got_data = false;
-    int gesture_index;
+    int gesture_index;              // 紀錄是哪個手勢
 
     static tflite::MicroErrorReporter micro_error_reporter;
     tflite::ErrorReporter* error_reporter = &micro_error_reporter;
@@ -123,10 +132,8 @@ int function_GUI (void) {
 
         should_clear_buffer = gesture_index < label_num;
         /*********************************************************************/
-        if (gesture_index < label_num) {                        // 判斷到手勢
-            //error_reporter->Report(config.output_message[gesture_index]);
-            //printf("%d\n", gesture_index);
-            if (gesture_index == 0) sel = 1;                    // 改變sel為對應手勢的值
+        if (gesture_index < label_num) {                    // 判斷到手勢
+            if (gesture_index == 0) sel = 1;                // 改變sel為對應手勢的值
             else sel = gesture_index;
         }
         /*********************************************************************/
