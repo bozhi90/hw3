@@ -12,8 +12,8 @@ s = serial.Serial(serdev, 9600)
 # Settings for connection
 # TODO: revise host to your IP
 host = "172.20.10.2"
-topic1= "Gesture"
-topic2= "Angle"
+topic1 = "Gesture"              # 主題1，手勢的資料
+topic2 = "Angle"                # 主題2，角度的資料
 
 # Callbacks
 def on_connect(self, mosq, obj, rc):
@@ -21,14 +21,14 @@ def on_connect(self, mosq, obj, rc):
 
 def on_message(mosq, obj, msg):
     print("[Received] Topic: " + msg.topic + ", Message: " + str(msg.payload) + "\n");
-    if msg.topic  == topic1:
-        s.write(bytes("/Gesture_UI_stop/run\r\n", 'UTF-8'))
+    if msg.topic  == topic1:                                            # 若為主題1
+        s.write(bytes("/Gesture_UI_stop/run\r\n", 'UTF-8'))             # 停止手勢判斷
         time.sleep(0.5)
-        s.write(bytes("/Tilt_angle_detection/run\r\n", 'UTF-8'))
-    elif msg.topic  == topic2:
-        s.write(bytes("/Tilt_angle_detection_stop/run\r\n", 'UTF-8'))
+        s.write(bytes("/Tilt_angle_detection/run\r\n", 'UTF-8'))        # 開始角度判斷
+    elif msg.topic  == topic2:                                          # 若為主題2
+        s.write(bytes("/Tilt_angle_detection_stop/run\r\n", 'UTF-8'))   # 停止角度判斷
         time.sleep(0.5)
-        s.write(bytes("/Gesture_UI/run\r\n", 'UTF-8'))
+        s.write(bytes("/Gesture_UI/run\r\n", 'UTF-8'))                  # 開始手勢判斷
 
 def on_subscribe(mosq, obj, mid, granted_qos):
     print("Subscribed OK")
@@ -50,6 +50,6 @@ print("Connecting to " + host + "/" + topic2)
 mqttc.subscribe(topic2, 0)
 
 
-s.write(bytes("/Gesture_UI/run\r\n", 'UTF-8'))
+s.write(bytes("/Gesture_UI/run\r\n", 'UTF-8'))        # 開始角度判斷
 # Loop forever, receiving messages
 mqttc.loop_forever()
