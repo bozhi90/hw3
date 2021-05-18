@@ -4,10 +4,10 @@
 #include "uLCD.h"       // uLCD函式庫
 
 // 全域變數
-bool runUI = false;	    // 手勢判斷的程式控制，Ture執行、False停止
-bool runTAD = false;    // 角度判斷的程式控制，Ture執行、False停止
-int sel = 1;		    // 最後的手勢對應的值
-int select_index = 1;   // 確認的值
+bool runUI = false;	        // 手勢判斷的程式控制，Ture執行、False停止
+bool runTAD = false;        // 角度判斷的程式控制，Ture執行、False停止
+int sel = 1;		        // 最後的手勢對應的值
+int select_index = 1;       // 確認的值
 
 InterruptIn button(USER_BUTTON);    // interrupt按鈕
 
